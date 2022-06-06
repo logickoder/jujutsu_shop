@@ -2,9 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import './utils/strings.dart';
+import './screens/cart_screen.dart';
 import './screens/product_overview_screen.dart';
 import './screens/product_detail_screen.dart';
-import './models/products_provider.dart';
+import './screens/orders_screen.dart';
+import './screens/user_products_screen.dart';
+import './screens/edit_product_screen.dart';
+import './models/product.dart';
+import './models/order.dart';
+import './models/cart.dart';
 
 void main() {
   runApp(const MyApp());
@@ -15,8 +21,12 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (context) => Products(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => Products()),
+        ChangeNotifierProvider(create: (_) => Cart()),
+        ChangeNotifierProvider(create: (_) => Orders()),
+      ],
       child: MaterialApp(
         title: appName,
         theme: ThemeData(
@@ -29,7 +39,12 @@ class MyApp extends StatelessWidget {
         routes: {
           "/": (_) => const ProductOverviewScreen(),
           ProductDetailScreen.route: (_) => const ProductDetailScreen(),
+          CartScreen.route: (_) => const CartScreen(),
+          OrdersScreen.route: (_) => const OrdersScreen(),
+          UserProductsScreen.route: (_) => const UserProductsScreen(),
+          EditProductScreen.route: (_) => const EditProductScreen(),
         },
+        debugShowCheckedModeBanner: false,
       ),
     );
   }
